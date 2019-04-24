@@ -12,7 +12,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, TelemetryLoggerMiddleware telemetryLoggerMiddleware)
+        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, Telemetry.TelemetryLoggerMiddleware telemetryLoggerMiddleware)
             : base(credentialProvider)
         {
             if (credentialProvider == null)

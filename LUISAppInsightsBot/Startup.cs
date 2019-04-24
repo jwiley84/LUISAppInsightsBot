@@ -18,7 +18,8 @@ namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
-        public IConfiguration configuration { get; set; }
+        //public IConfiguration configuration { get; set; }
+        //public int pause = 1;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -34,30 +35,33 @@ namespace Microsoft.BotBuilderSamples
             // Create the bot services (LUIS, QnA) as a singleton.
             services.AddSingleton<IBotServices, BotServices>();
 
-            #region newSingletons
             // Create the storage we'll be using for the User and Conversation State. (Memory is great for testing purposes)
             services.AddSingleton<IStorage, MemoryStorage>();
-
-            // Create the User state.
-            services.AddSingleton<UserState>();
 
             // Create Telemetry Client
             services.AddSingleton<TelemetryLuisRecognizer>();
 
             // Create the bot as a transient.
             services.AddTransient<IBot, LuisAppInsightsBot>();
-
+            
+            #region Option_1
+            
             // The following line enables Application Insights telemetry collection.
-            //services.AddBotApplicationInsights(services.GetRequiredService<IConfiguration>());
+            services.AddBotApplicationInsights();
 
-            services.AddApplicationInsightsTelemetry();
-           
-            services.AddSingleton<IBotTelemetryClient>(options => new BotTelemetryClient(new TelemetryClient()));
+            #endregion
+
+            #region Option_2
+
+            //services.AddApplicationInsightsTelemetry();
+
+            //services.AddSingleton<IBotTelemetryClient>(options => new BotTelemetryClient(new TelemetryClient()));
+            #endregion
 
             // Create the Telemetry Middleware that will be added to the middlware pipeline in the AdapterWithErrorHandler.
             services.AddSingleton<TelemetryLoggerMiddleware>();
             
-            #endregion
+            
             
         }
 
